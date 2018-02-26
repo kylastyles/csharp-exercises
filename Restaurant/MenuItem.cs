@@ -105,7 +105,7 @@ namespace Restaurant
 
         public override string ToString ()
         {
-            return String.Format("{0}, {1}, ${2}", Name, Description, Price);
+            return String.Format("{0}; {1}; {2:C}", Name, Description, Price);
         }
     }
 }

@@ -7,16 +7,35 @@ namespace Restaurant
 {
     public class Menu
     {
-        private List<MenuItem> menuItems;
-
-        public List<MenuItem> MenuItems
+        private List<MenuItem> appetizers;
+        public List<MenuItem> Appetizers
         {
-            get { return menuItems; }
-            set => menuItems = value;
+            get { return appetizers; }
+            set => appetizers = value;
+        }
+
+        private List<MenuItem> entrees;
+        public List<MenuItem> Entrees
+        {
+            get { return entrees; }
+            set => entrees = value;
+        }
+
+        private List<MenuItem> desserts;
+        public List<MenuItem> Desserts
+        {
+            get { return desserts; }
+            set => desserts = value;
+        }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
         }
 
         private string lastUpdate;
-
         public string LastUpdate
         {
             get { return lastUpdate; }
@@ -27,33 +46,66 @@ namespace Restaurant
         //public methods
 
         public void AddItem (MenuItem x)
-        {   
-            try
+        {
+            if (x.Category == "Appetizer")
             {
-                menuItems.Add(x);
-                this.LastUpdate = DateTime.Now.ToString();
-            }
-            catch (NullReferenceException)
+                Appetizers.Add(x);
+            } else if (x.Category == "Entree")
             {
-                Console.WriteLine("No item present");
+                Entrees.Add(x);
+            } else if (x.Category == "Dessert")
+            {
+                Desserts.Add(x);
+            } else
+            {
+                Console.WriteLine("AddItem Failed: unknown category");
             }
+            this.LastUpdate = DateTime.Now.ToString();
         }
 
         public void RemoveItem (MenuItem x)
         {
-            menuItems.Remove(x);
+            if (x.Category == "Appetizer")
+            {
+                Appetizers.Remove(x);
+            }
+            else if (x.Category == "Entree")
+            {
+                Entrees.Remove(x);
+            }
+            else if (x.Category == "Dessert")
+            {
+                Desserts.Remove(x);
+            }
+            else
+            {
+                Console.WriteLine("RemoveItem Failed: unknown category");
+            }
             this.LastUpdate = DateTime.Now.ToString();
         }
 
         public override string ToString ()
         {
             string menuprint = "";
+            menuprint += String.Format("Welcome to {0}!\n", this.Name);
             try
             {
-                foreach (MenuItem x in menuItems)
+                menuprint += "\nAPPETIZERS\n**********\n";
+                foreach (MenuItem x in Appetizers)
                 {
                     menuprint += x.ToString() + "\n";
                 }
+                menuprint += "\nENTREES\n*******\n";
+                foreach (MenuItem x in Entrees)
+                {
+                    menuprint += x.ToString() + "\n";
+                }
+                menuprint += "\nDESSERTS\n********\n";
+                foreach (MenuItem x in Desserts)
+                {
+                    menuprint += x.ToString() + "\n";
+                }
+                menuprint += "\n~Bon Appetit~";
             }
             catch (NullReferenceException)
             {
@@ -62,15 +114,29 @@ namespace Restaurant
             return menuprint;
         }
 
-    //constructors
+    //constructors, overloaded
         public Menu ()
         {
-            menuItems = new List<MenuItem>();
+            Appetizers = new List<MenuItem>();
+            Entrees = new List<MenuItem>();
+            Desserts = new List<MenuItem>();
+        }
+
+        public Menu (string name)
+        {
+            Name = name;
+
+            Appetizers = new List<MenuItem>();
+            Entrees = new List<MenuItem>();
+            Desserts = new List<MenuItem>();
         }
 
         public Menu (MenuItem x)
         {
-            menuItems = new List<MenuItem>();
+            Appetizers = new List<MenuItem>();
+            Entrees = new List<MenuItem>();
+            Desserts = new List<MenuItem>();
+
             this.AddItem(x);
         }
 
