@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 
 namespace Restaurant
 {
@@ -45,17 +43,30 @@ namespace Restaurant
 
         //public methods
 
-        public void AddItem (MenuItem x)
+        public void AddItem (MenuItem newItem)
         {
-            if (x.Category == "Appetizer")
+            foreach (MenuItem oldItem in Appetizers)
             {
-                Appetizers.Add(x);
-            } else if (x.Category == "Entree")
+                oldItem.NewItem = false;
+            }
+            foreach (MenuItem oldItem in Entrees)
             {
-                Entrees.Add(x);
-            } else if (x.Category == "Dessert")
+                oldItem.NewItem = false;
+            }
+            foreach (MenuItem oldItem in Desserts)
             {
-                Desserts.Add(x);
+                oldItem.NewItem = false;
+            }
+
+            if (newItem.Category == "Appetizer")
+            {
+                Appetizers.Add(newItem);
+            } else if (newItem.Category == "Entree")
+            {
+                Entrees.Add(newItem);
+            } else if (newItem.Category == "Dessert")
+            {
+                Desserts.Add(newItem);
             } else
             {
                 Console.WriteLine("AddItem Failed: unknown category");
@@ -93,19 +104,31 @@ namespace Restaurant
                 menuprint += "\nAPPETIZERS\n**********\n";
                 foreach (MenuItem x in Appetizers)
                 {
+                    if (x.NewItem == true)
+                    {
+                        menuprint += "NEW! ";
+                    }
                     menuprint += x.ToString() + "\n";
                 }
                 menuprint += "\nENTREES\n*******\n";
                 foreach (MenuItem x in Entrees)
                 {
+                    if (x.NewItem == true)
+                    {
+                        menuprint += "NEW! ";
+                    }
                     menuprint += x.ToString() + "\n";
                 }
                 menuprint += "\nDESSERTS\n********\n";
                 foreach (MenuItem x in Desserts)
                 {
+                    if (x.NewItem == true)
+                    {
+                        menuprint += "NEW! ";
+                    }
                     menuprint += x.ToString() + "\n";
                 }
-                menuprint += "\n~Bon Appetit~";
+                menuprint += String.Format("\nMenu last updated: {0:D}\n~Bon Appetit~", this.LastUpdate);
             }
             catch (NullReferenceException)
             {
@@ -138,6 +161,18 @@ namespace Restaurant
             Desserts = new List<MenuItem>();
 
             this.AddItem(x);
+        }
+
+        public Menu (params MenuItem[] items)
+        {
+            Appetizers = new List<MenuItem>();
+            Entrees = new List<MenuItem>();
+            Desserts = new List<MenuItem>();
+
+            foreach (MenuItem item in items)
+            {
+                this.AddItem(item);
+            }
         }
 
     }

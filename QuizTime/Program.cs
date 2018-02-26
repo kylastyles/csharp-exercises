@@ -10,8 +10,4 @@ namespace QuizTime
         }
     }
 
-    class Question
-    {
-
-    }
 }

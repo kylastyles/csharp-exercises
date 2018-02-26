@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace Restaurant
@@ -9,18 +7,19 @@ namespace Restaurant
     {
         public static int nextID = 1;
 
-    //private
+    //private properties
         private int id;
         private string name;
         private string description;
         private double price;
         private string category;
         private string createdOn = DateTime.Now.ToString();
+        private bool newItem;
 
         private string[] categories = new string[]
             { "Appetizer", "Entree", "Dessert" };
 
-    //public
+    //public properties
         public string Name
         {
             get => name;
@@ -50,6 +49,13 @@ namespace Restaurant
             }
         }
 
+        public bool NewItem
+        {
+            get => newItem;
+            set => newItem = value;
+        }
+
+
     //Constructors, overloaded
         public MenuItem (string name, string description, double price, string category)
         {
@@ -59,28 +65,28 @@ namespace Restaurant
             Description = description;
             Price = price;
             Category = category;
+            NewItem = true;
 
         }
 
         public MenuItem ()
         {
             id = ++nextID;
+            NewItem = true;
         }
 
-
-
+    //Other methods
         public DateTime currentTime;
-
-        public bool NewCheck (DateTime createdDate)
+        public void NewCheck (DateTime createdDate)
         {
             TimeSpan threeMonths = new TimeSpan(2160, 0, 0);
             if (currentTime.Subtract(createdDate) < threeMonths)
             {
-                return true;
+                NewItem = true;
             }
             else
             {
-                return false;
+                NewItem = false;
             }
         }
 
